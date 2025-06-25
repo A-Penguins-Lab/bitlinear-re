@@ -64,6 +64,8 @@ class BitLinear(nn.Module):
         final_term = (self.beta * self.gamma) / self.qb_max
         y = x @ self.w * final_term
 
+        
+
         return y
 
 class FreezeBitLinear(nn.Module):

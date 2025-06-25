@@ -3,7 +3,7 @@ Recreating BitLinear from the reference paper: https://arxiv.org/pdf/2310.11453.
 
 ## TODO: 
 - [x] Implement core BitLinear module
-- [ ] Add training script
+- [x] Add training script
 - [ ] Write evaluation metrics
 - [ ] Document usage and API
 - [ ] Write kernels using triton for matmul and layernorm for customizability (and for fun) 
