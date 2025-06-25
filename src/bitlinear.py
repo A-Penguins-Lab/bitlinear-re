@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 
-from .utils import get_qb_range, get_alpha, get_beta, get_gamma
+from utils import get_qb_range, get_beta, get_gamma
 
 class ABSMax:
     def __init__(self, gamma: float, beta: float, ep: float, bit_range: int = 8):
@@ -38,9 +38,9 @@ class BitLinear(nn.Module):
         self.weight_init()
 
     def weight_init(self):
-        self.w = nn.Parameter(torch.randn(self.n_in, self.n_out), requires_grad=True)
+        self.w = torch.randn(self.n_in, self.n_out)
 
-        self.alpha = get_alpha(self.w)
+        self.alpha = torch.mean(self.w)
         self.beta = get_beta(self.w)
         self.gamma = get_gamma(self.w)
 
@@ -51,10 +51,11 @@ class BitLinear(nn.Module):
             self.bit
         )
 
-        self.w = self.w - self.alpha
+        self.w =self.w - self.alpha
 
         ## Signum fn applying
-        self.w = torch.where(self.w > 0, 1, -1)
+        self.w = torch.where(self.w > 0, 1.0, -1.0)
+        self.w = nn.Parameter(self.w, requires_grad=True)
 
     def forward(self, x):
         x = self.ln(x)
@@ -65,4 +66,9 @@ class BitLinear(nn.Module):
 
         return y
 
+class FreezeBitLinear(nn.Module):
+    def __init__(self):
+        super().__init__()
 
+    def forward():
+        pass        
